@@ -16,13 +16,29 @@ class Line:
         self.dy = dy
         self.colour = colour
         self.canvas = canvas
-        self.id = canvas.create_rectangle(point[0], point[1], point[0] + dx, point[1] + dy, fill=colour, outline="")
+        self.id_1 = None
+        self.id_2 = None
+        self.id_3 = None
+        if dx < dy:
+            self.id_1 = canvas.create_polygon(point[0], point[1], point[0] + dx // 2, point[1] - dx // 2 , point[0] + dx, point[1], point[0] + dx, point[1] + dy, point[0] + dx // 2, point[1] + dy + dx // 2, point[0], point[1] + dy,fill=colour, outline="white")
+        if dx > dy:
+            self.id_2 = canvas.create_polygon(point[0], point[1], point[0] + dx, point[1], point[0] + dx + dy // 2, point[1] + dy // 2, point[0] + dx, point[1] + dy, point[0], point[1] + dy, point[0] - dy // 2, point[1] + dy // 2,fill=colour, outline="white")
+        if dx == dy:
+            self.id_3 = canvas.create_rectangle(point[0], point[1], point[0] + dx, point[1] + dy, fill=colour, outline="")
 
     def on(self):
-        canvas.itemconfig(self.id, fill=self.colour)
+        if self.id_1:
+            canvas.itemconfig(self.id_1, fill=self.colour)
+        if self.id_2:
+            canvas.itemconfig(self.id_2, fill=self.colour)
+        if self.id_3:
+            canvas.itemconfig(self.id_3, fill=self.colour)
 
     def off(self):
-        canvas.itemconfig(self.id, fill="white")
+        if self.id_1:
+            canvas.itemconfig(self.id_1, fill="white")
+        if self.id_2:
+            canvas.itemconfig(self.id_2, fill="white")
 
 
 class Segment:
